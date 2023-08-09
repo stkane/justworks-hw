@@ -1,5 +1,6 @@
 import {
   validatePercentagesAddUpTo100,
+  determineCryptoCoinPurchases,
 } from "../index";
 
 describe("index.js", () => {
@@ -19,5 +20,23 @@ describe("index.js", () => {
     expect(() =>
       validatePercentagesAddUpTo100({ BTC: 70, ETH: 31 })
     ).toThrowError();
+  });
+
+  test("determines dollar amounts", () => {
+    const testExchangeRates = {
+      data: { currency: "USD", rates: { BTC: "1", ETH: "1" } },
+    };
+    expect(
+      determineCryptoCoinPurchases(100, { BTC: 70, ETH: 30 }, testExchangeRates)
+    ).toStrictEqual({ BTC: 70, ETH: 30 });
+  });
+
+  test("determines dollar amounts with different exchange rates", () => {
+    const testExchangeRates = {
+      data: { currency: "USD", rates: { BTC: "0.5", ETH: "1" } },
+    };
+    expect(
+      determineCryptoCoinPurchases(100, { BTC: 20, ETH: 80 }, testExchangeRates)
+    ).toStrictEqual({ BTC: 10, ETH: 80 });
   });
 });
