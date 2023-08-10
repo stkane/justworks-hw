@@ -1,4 +1,4 @@
-import { determineCryptoCoinPurchases } from "./determineCryptoPurchases.js";
+import { determineCryptoPurchases } from "./determineCryptoPurchases.js";
 
-const data = await determineCryptoCoinPurchases(100)
-console.log(data)
+const data = await determineCryptoPurchases(100);
+console.log(data);

@@ -1,4 +1,4 @@
-import { determineCryptoCoinPurchases } from "../determineCryptoPurchases";
+import { determineCryptoPurchases } from "../determineCryptoPurchases";
 
 import { coinBaseAPI } from "../apis/coinbase-api/coinBaseAPI";
 
@@ -10,7 +10,7 @@ describe("index.js", () => {
     coinBaseAPI.getExchangeRatesForCurrency = jest
       .fn()
       .mockReturnValue(testExchangeRates);
-    const coinPurchases = await determineCryptoCoinPurchases(100);
+    const coinPurchases = await determineCryptoPurchases(100);
     expect(coinPurchases).toStrictEqual({ BTC: "70", ETH: "30" });
   });
 
@@ -22,7 +22,7 @@ describe("index.js", () => {
       .fn()
       .mockReturnValue(testExchangeRates);
 
-    const result = await determineCryptoCoinPurchases(100);
+    const result = await determineCryptoPurchases(100);
     expect(result).toStrictEqual({ BTC: "35", ETH: "30" });
   });
 
@@ -37,7 +37,7 @@ describe("index.js", () => {
       .fn()
       .mockReturnValue(testExchangeRates);
 
-    const result = await determineCryptoCoinPurchases(100);
+    const result = await determineCryptoPurchases(100);
     expect(result).toStrictEqual({
       BTC: "16.30882561063665",
       ETH: "11.309819999681691",
@@ -55,7 +55,7 @@ describe("index.js", () => {
       .fn()
       .mockReturnValue(testExchangeRates);
 
-    const result = await determineCryptoCoinPurchases(304.31);
+    const result = await determineCryptoPurchases(304.31);
     expect(result).toStrictEqual({
       BTC: "49.629387215728389615",
       ETH: "34.4169132410313538821",

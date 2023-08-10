@@ -1,7 +1,7 @@
 import { coinBaseAPI } from "./apis/coinbase-api/coinBaseAPI.js";
 import Big from "big.js";
 
-export const determineCryptoCoinPurchases = async function (dollars) {
+export const determineCryptoPurchases = async function (dollars) {
   const purchasePercentages = { BTC: 70, ETH: 30 };
   const exchangeRates = await coinBaseAPI.getExchangeRatesForCurrency("USD");
 
