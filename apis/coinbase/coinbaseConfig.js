@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// change to client
-export const coinbaseClient = axios.create({
+export const coinbaseConfig = axios.create({
   baseURL: `https://api.coinbase.com/v2/`,
   headers: {
     Accept: "application/json",
@@ -9,11 +8,10 @@ export const coinbaseClient = axios.create({
   },
 });
 
-coinbaseClient.interceptors.response.use(undefined, (error) => {
+coinbaseConfig.interceptors.response.use(undefined, (error) => {
   return coinbaseClientError(error);
 });
 
-// defining a custom error handler for all APIs
 const coinbaseClientError = (error) => {
   const jsonError = error.toJSON();
   return Promise.reject(
