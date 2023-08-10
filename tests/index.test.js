@@ -3,6 +3,8 @@ import {
   determineCryptoCoinPurchases,
 } from "../index";
 
+import { coinBaseAPI } from "../apis/coinbase-api/coinBaseAPI";
+
 describe("index.js", () => {
   test("validate percentages add up to 100", () => {
     expect(() =>
@@ -22,21 +24,51 @@ describe("index.js", () => {
     ).toThrowError();
   });
 
-  test("determines dollar amounts", () => {
+  test("exchange rate is equal to 1 dollar", async () => {
     const testExchangeRates = {
       data: { currency: "USD", rates: { BTC: "1", ETH: "1" } },
     };
-    expect(
-      determineCryptoCoinPurchases(100, { BTC: 70, ETH: 30 }, testExchangeRates)
-    ).toStrictEqual({ BTC: 70, ETH: 30 });
+    coinBaseAPI.getExchangeRatesForCurrency = jest
+      .fn()
+      .mockReturnValue(testExchangeRates);
+    const coinPurchases = await determineCryptoCoinPurchases(
+      100,
+      { BTC: 70, ETH: 30 },
+      "USD"
+    );
+    expect(coinPurchases).toStrictEqual({ BTC: 70, ETH: 30 });
   });
 
-  test("determines dollar amounts with different exchange rates", () => {
+  test("different exchange rates", async () => {
     const testExchangeRates = {
       data: { currency: "USD", rates: { BTC: "0.5", ETH: "1" } },
     };
-    expect(
-      determineCryptoCoinPurchases(100, { BTC: 20, ETH: 80 }, testExchangeRates)
-    ).toStrictEqual({ BTC: 10, ETH: 80 });
+    coinBaseAPI.getExchangeRatesForCurrency = jest
+      .fn()
+      .mockReturnValue(testExchangeRates);
+
+    const result = await determineCryptoCoinPurchases(
+      100,
+      { BTC: 20, ETH: 80 },
+      testExchangeRates
+    );
+    expect(result).toStrictEqual({ BTC: 10, ETH: 80 });
+  });
+
+  test("exchange rates have many decimal places", async () => {
+    const testExchangeRates = {
+      data: { currency: "USD", rates: { BTC: "0.232983223009095", ETH: "0.3769939999893897" } },
+    };
+    coinBaseAPI.getExchangeRatesForCurrency = jest
+      .fn()
+      .mockReturnValue(testExchangeRates);
+
+    const result = await determineCryptoCoinPurchases(
+      100,
+      { BTC: 20, ETH: 80 },
+      testExchangeRates
+    );
+    expect(result).toStrictEqual({ BTC: 4.65966446018, ETH: 30.1595199992 });
   });
 });
+// test more kinds of coins
