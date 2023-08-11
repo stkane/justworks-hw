@@ -3,7 +3,7 @@ import Big from "big.js";
 
 export const determineCryptoPurchases = async (dollars) => {
   // purchasePercentages are hardcoded because my interpretation of the prompt
-  // was that this function should _only_ take dollars as a param. It would be 
+  // was that this function should _only_ take dollars as a param. It would be
   // easy to move purchasePercentages to a param and make this function more flexible
   const purchasePercentages = { BTC: 70, ETH: 30 };
   const exchangeRates = await coinbaseClient.getExchangeRates("USD");

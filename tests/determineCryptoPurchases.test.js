@@ -1,8 +1,6 @@
 import { coinbaseClient } from "../apis/coinbase/coinBaseClient";
 import { determineCryptoPurchases } from "../determineCryptoPurchases";
 
-
-
 describe("index.js", () => {
   test("exchange rate is equal to 1 dollar", async () => {
     // Arrange
@@ -12,10 +10,10 @@ describe("index.js", () => {
     coinbaseClient.getExchangeRates = jest
       .fn()
       .mockReturnValue(testExchangeRates);
-    
+
     // Act
     const coinPurchases = await determineCryptoPurchases(100);
-    
+
     // Assert
     expect(coinPurchases).toStrictEqual({ BTC: "70", ETH: "30" });
   });
